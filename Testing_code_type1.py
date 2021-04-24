@@ -5,13 +5,15 @@ import numpy as np
 import imutils
 import cv2
 
+from google.colab.patches import cv2_imshow
+
 # load the handwriting OCR model
 print("[INFO] loading handwriting OCR model...")
-model = load_model('/content/drive/MyDrive/Colab Notebooks/handwriting.model')
+model = load_model('/content/handwriting.model')
 
 # load the input image from disk, convert it to grayscale, and blur
 # it to reduce noise
-image = cv2.imread('/content/drive/MyDrive/Colab Notebooks/image1.jpg') # Input any Image!!!
+image = cv2.imread('/content/example image for this code.jpg') 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray, (3, 3), 0)
 sharpen_kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
@@ -39,7 +41,7 @@ def is_contour_bad(c):
     return True
 
 #edged = cv2.Canny(sharpen, 5, 255)
-cv2.imshow(close)
+cv2_imshow(close)
 # find contours in the image and initialize the mask that will be
 # used to remove the bad contours
 cnts = cv2.findContours(close.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -129,7 +131,7 @@ for (pred, (x, y, w, h)) in zip(preds, boxes):
       cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
     winner.append(label)
     # show the image
-    cv2.imshow(image)
+    cv2_imshow(image)
     cv2.waitKey(0)
     
 countg = 0
